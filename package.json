@@ -1,0 +1,29 @@
+{
+  "name": "pokedex",
+  "version": "1.0.0",
+  "description": "a REPL (Read-Eval-Print Loop)",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "build": "npx tsc",
+    "start": "node dist/main.js",
+    "dev": "npx tsc && node dist/main.js",
+    "test": "vitest --run"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Nagami2/pokedex.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Nagami2/pokedex/issues"
+  },
+  "homepage": "https://github.com/Nagami2/pokedex#readme",
+  "devDependencies": {
+    "@types/node": "^24.9.2",
+    "typescript": "^5.9.3",
+    "vitest": "^4.0.6"
+  }
+}

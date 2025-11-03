@@ -1,6 +1,5 @@
-// it must accept a dictionary of commands to match the CLICommand type
-// even though this function doesn't use it
-export function commandExit(commands) {
+export function commandExit(state) {
     console.log("Closing the Pokedex.... Goodbye!");
+    state.rl.close(); // cleanup the readline interface
     process.exit(0);
 }

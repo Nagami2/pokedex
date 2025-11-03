@@ -1,7 +1,7 @@
-//repl.js actually refers to repl.ts
-// we use .js because that's the compiled output file
 import { startREPL } from "./repl.js";
+import { initState } from "./state.js";
 function main() {
-    startREPL();
+    const state = initState(); // create the state
+    startREPL(state); // pass it to the REPL
 }
 main();

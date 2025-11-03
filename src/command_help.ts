@@ -1,11 +1,11 @@
-import type { CLICommand } from "./command.js";
+import type { CLICommand, State } from "./state.js";
 
-export function commandHelp(commands: Record<string, CLICommand>): void {
+export function commandHelp(state: State): void {
   console.log("Available commands:");
-
+  
   // Iterate over the commands and print their name and description
-  for (const command of Object.values(commands)) {
+  for (const command of Object.values(state.commands)) {
     console.log(`  ${command.name}: ${command.description}`);
   }
-  console.log(""); // Add an extra newline for better readability
+  console.log(""); 
 }

@@ -12,7 +12,8 @@ export function startREPL(state: State): void {
 
     rl.prompt();
 
-    rl.on("line", (line) => {
+    // make the event listener callback async
+    rl.on("line", async (line) => {
         const words = cleanInput(line);
 
         if(words.length === 0 || (words.length === 1 && words[0] === "")) {
@@ -26,10 +27,13 @@ export function startREPL(state: State): void {
 
         if (command) {
             try {
-                command.callback(state);
-            } catch (error) {
-                console.error(`Error executing command "${commandName}":`, error);
-            }   
+                await command.callback(state);
+            } catch (err: unknown) {
+                console.error(`Error executing command "${commandName}":`, err);
+                if (err instanceof Error) {
+                    console.error("Error message:", err.message);
+                }
+            }
         } else {
             console.log(`Unknown command: ${commandName}`);
         }   

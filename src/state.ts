@@ -2,24 +2,28 @@
 import * as readline from "node:readline";
 import {commandHelp} from "./command_help.js";
 import {commandExit} from "./command_exit.js";
+import { commandMap, commandMapB } from "./command_map.js";
+import { PokeAPI } from "./pokeapi.js"; //import PokeAPI class
 
 
-// 1. CLICommand type moved here and updated
+// 1. update the callback to return a promise
 export type CLICommand = {
     name: string;
     description: string;
-    callback: (state: State) => void; // callback now accepts State
+    callback: (state: State) => Promise<void>; 
 };
 
-// 2. Application state type
+// 2. update the State type
 export type State = {
     rl: readline.Interface;
     commands: Record<string, CLICommand>;
+    pokeapi: PokeAPI; // add PokeAPI instance to state
+    nextLocationsURL: string | null; // for pagination
+    prevLocationsURL: string | null; // for pagination
 };
 
-// 3. Function to initialize the application state
+// 3. update the initState function
 export function initState(): State {
-    // logic from repl.ts is moved here
     const rl = readline.createInterface({
         input: process.stdin,
         output: process.stdout,
@@ -38,8 +42,24 @@ export function initState(): State {
             description: "Exit the Pokedex application",
             callback: commandExit,
         },
+        map: {
+            name: "map",
+            description: "Displays the next 20 location areas",
+            callback: commandMap,
+        },
+        mapb: {
+            name: "mapb",
+            description: "Displays the previous 20 location areas",
+            callback: commandMapB,
+        },  
     };
 
-    return { rl, commands };
+    return { 
+        rl, 
+        commands,
+        pokeapi: new PokeAPI(), // instantiate PokeAPI
+        nextLocationsURL: "https://pokeapi.co/api/v2/location-area", // initialize pagination URLs
+        prevLocationsURL: null,
+    };
 }
 
